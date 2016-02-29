@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>CSL Trade Machine</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <!-- Optional Bootstrap theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <LINK REL=StyleSheet HREF="Public/myStyle.css" TYPE="text/css">
+</head>
+
+<script>
+function teamOne()
+{
+	var mylist1=document.getElementById("myList1");
+	document.getElementById("selectedTeamOne").value = mylist1.options[mylist1.selectedIndex].text;
+}
+function teamTwo()
+{
+	var mylist2=document.getElementById("myList2");
+	document.getElementById("selectedTeamTwo").value = mylist2.options[mylist2.selectedIndex].text;
+}
+</script>
+<body>
+
+	<div class="container">
+		<div class="row">
+			<h1 id="body-header">CSL Trade Machine</h1>
+		</div>
+	</div>
+
+	<div class="jumbotron">
+		<img id="jumboIMG" src="http://i.imgur.com/pB4U4Yk.png" />
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3">
+				<form>
+				Select Team 1:
+				<select id="myList1" onchange="teamOne()">
+					<option>Atlanta Hawks</option>
+					<option>Boston Celtics</option>
+					<option>Brooklyn Nets</option>
+					<option>Charlotte Hornets</option>
+					<option>Chicago Bulls</option>
+					<option>Cleveland Cavaliers</option>
+					<option>Dallas Mavericks</option>
+					<option>Denver Nuggets</option>
+					<option>Detroit Pistons</option>
+					<option>Golden State Warriors</option>
+					<option>Houston Rockets</option>
+					<option>Indiana Pacers</option>
+					<option>Los Angeles Clippers</option>
+					<option>Los Angeles Lakers</option>
+					<option>Memphis Grizzlies</option>
+					<option>Miami Heat</option>
+					<option>Milwaukee Bucks</option>
+					<option>Minnesota Timberwolves</option>
+					<option>New Orleans Pelicans</option>
+					<option>New York Knicks</option>
+					<option>Oklahoma City Thunder</option>
+					<option>Orland Magic</option>
+					<option>Philadelphia 76ers</option>
+					<option>Phoenix Suns</option>
+					<option>Portland Trailblazers</option>
+					<option>Sacramento Kings</option>
+					<option>San Antonio Spurs</option>
+					<option>Toronto Raptors</option>
+					<option>Utah Jazz</option>
+					<option>Washington Wizards</option>
+				</select>
+				</form>
+			</div>
+			<div id="t1Trades" class="col-md-3" align="right">
+				<h4>Team 1 Trades:</h4>
+			</div>
+			<div id="t2Trades" class="col-md-3" align="left">
+				<h4>Team 2 Trades:</h4>
+			</div>
+			<div class="col-md-3" align="right">
+				<form>
+				Select Team 2:
+				<select id="myList2" onchange="teamTwo()">
+					<option>Atlanta Hawks</option>
+					<option>Boston Celtics</option>
+					<option>Brooklyn Nets</option>
+					<option>Charlotte Hornets</option>
+					<option>Chicago Bulls</option>
+					<option>Cleveland Cavaliers</option>
+					<option>Dallas Mavericks</option>
+					<option>Denver Nuggets</option>
+					<option>Detroit Pistons</option>
+					<option>Golden State Warriors</option>
+					<option>Houston Rockets</option>
+					<option>Indiana Pacers</option>
+					<option>Los Angeles Clippers</option>
+					<option>Los Angeles Lakers</option>
+					<option>Memphis Grizzlies</option>
+					<option>Miami Heat</option>
+					<option>Milwaukee Bucks</option>
+					<option>Minnesota Timberwolves</option>
+					<option>New Orleans Pelicans</option>
+					<option>New York Knicks</option>
+					<option>Oklahoma City Thunder</option>
+					<option>Orland Magic</option>
+					<option>Philadelphia 76ers</option>
+					<option>Phoenix Suns</option>
+					<option>Portland Trailblazers</option>
+					<option>Sacramento Kings</option>
+					<option>San Antonio Spurs</option>
+					<option>Toronto Raptors</option>
+					<option>Utah Jazz</option>
+					<option>Washington Wizards</option>
+				</select>
+				</form>
+			</div>
+		</div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+</body>
+</html>
