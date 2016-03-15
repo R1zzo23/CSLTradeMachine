@@ -21,11 +21,11 @@
 }
 
 body {
-	background-color: #DCDCDC;
+	background-color: #FFFFFF;
 }
 
 .jumbotron {
-	background-color: #DCDCDC;
+	background-color: #FFFFFF;
 }
 
 #t1Trades {
@@ -34,4 +34,52 @@ body {
 
 #t2Trades {
      padding-left: 15px;
+}
+
+table, th, td {
+   border: 1px solid black;
+   text-align: center;
+}
+
+table {
+     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+     border-collapse: collapse;;
+     width: 100%;
+     table-layout: fixed;
+}
+
+td, th {
+     overflow: hidden;
+     width: 100px;
+}
+
+th {
+    height: 50px;
+}
+
+tr:hover td {
+     background-color: #ffff99;
+}
+
+tr:nth-child(even) {
+     background-color: #A4A4A4;
+}
+
+tr th {
+     background-color: #585858;
+     color: #FFFFFF;
+}
+
+#footer {
+     height: 400px;
+}
+
+#end {
+     position: absolute;
+     bottom: 0;
+     right: 0;
+}
+
+.btnRemove {
+     width: 20px;
 }
