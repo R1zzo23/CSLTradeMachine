@@ -19,35 +19,67 @@
 $(document).ready(function () { $('#teamList1').change(function () { team1Change(); }); $('#teamList1').change(); });
 $(document).ready(function () { $('#teamList2').change(function () { team2Change(); }); $('#teamList2').change(); });
 
+$(document).ready(function () { $('#team1Trades').append('<tr><td colspan="2">Total Salary:</td><td colspan="2" id="totalSalaryTeam1"></td></tr>') });
+
+$(document).ready(function () { $('#team2Trades').append('<tr><td colspan="2">Total Salary:</td><td colspan="2" id="totalSalaryTeam2"></td></tr>') });
+
 // Function creates OnClick event to add player to trade table
 $(document).ready(function() {
                 var items = [];
 
-                $("#team1Table tr").on("click", function() 
+                $("#team1Table tbody tr").on("click", function() 
                 {
                     var newTr = $(this).closest("tr").clone();
 
-                    items.push(newTr);
-                    newTr.appendTo($("#team1Trades"));
+                    newTr.append('<td><input type="button" value="Remove" onclick="RemoveFromTrade(this)" /></td>');
+
+                    //var table = document.getElementById("#team1Trades");
+                    
+                    newTr.prependTo($("#team1Trades"));
+                    SumOfTradedPlayers();
                 });
 })
 $(document).ready(function() {
                 var items = [];
 
-                $("#team2Table tr").on("click", function() 
+                $("#team2Table tbody tr").on("click", function() 
                 {
                     var newTr = $(this).closest("tr").clone();
 
-                    items.push(newTr);
-                    newTr.appendTo($("#team2Trades"));
+                    newTr.append('<td><input type="button" value="Remove" onclick="RemoveFromTrade(this)" /></td>');
+
+                    newTr.prependTo($("#team2Trades"));
 
                 });
 })
 
 
-//
 // Function to add button delete row from trade table when clicked on
+function RemoveFromTrade(btn){
+	var row = btn.parentNode.parentNode;
+	row.parentNode.removeChild(row);
+};
 //
+
+
+
+function SumOfTradedPlayers()
+{
+	for (var i=1; i< 3; i++)
+	{
+	    var sum = 0;
+
+	    // iteration through all td's in the column
+	    $('#team1Trades>tbody>tr>td:nth-child(2)').each( function(){
+	        sum += parseInt($(this).text()) || 0;
+	    });
+
+	    // set total in last cell of the column
+	    $('#totalSalaryTeam1').html(sum);
+	    
+	}
+	
+}
 
 function team1Change(){
 	// Shows players from team selected, hides all others
@@ -62,9 +94,12 @@ function team1Change(){
     });
 
     // Empties trade table when team gets changed
-    for(var i = document.getElementById("team1Trades").rows.length; i > 1;i--)
-	{
-		document.getElementById("team1Trades").deleteRow(i -1);
+    if (document.getElementById("team1Trades").rows.length >= 3)
+    {
+	    for(var i = document.getElementById("team1Trades").rows.length -1; i > 1;i--)
+		{
+			document.getElementById("team1Trades").deleteRow(i -1);
+		}
 	}
 }; 
 
@@ -81,9 +116,12 @@ function team2Change(){
     });
 
     // Empties trade table when team gets changed
-    for(var i = document.getElementById("team2Trades").rows.length; i > 1;i--)
-	{
-		document.getElementById("team2Trades").deleteRow(i -1);
+    if (document.getElementById("team2Trades").rows.length >= 3)
+    {
+	    for(var i = document.getElementById("team2Trades").rows.length -1; i > 1;i--)
+		{
+			document.getElementById("team2Trades").deleteRow(i -1);
+		}
 	}
 }; 
 
@@ -2865,7 +2903,7 @@ function team2Change(){
 					<td>Memphis Grizzlies</td>
 					<td>$1,352,181 </td>
 					</tr>
-					<tr><td>Kyle O&#39;Quinn</td>
+					<tr><td>Kyle O'Quinn</td>
 					<td>Memphis Grizzlies</td>
 					<td>$4,800,000 </td>
 					</tr>

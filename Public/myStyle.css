@@ -29,11 +29,11 @@ body {
 }
 
 #t1Trades {
-     padding-right: 15px;
+     padding-right: 10px;
 }
 
 #t2Trades {
-     padding-left: 15px;
+     padding-left: 10px;
 }
 
 table, th, td {
@@ -81,5 +81,5 @@ tr th {
 }
 
 .btnRemove {
-     width: 20px;
+     width: 41px;
 }
