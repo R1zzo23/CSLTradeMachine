@@ -19,24 +19,28 @@
 $(document).ready(function () { $('#teamList1').change(function () { team1Change(); }); $('#teamList1').change(); });
 $(document).ready(function () { $('#teamList2').change(function () { team2Change(); }); $('#teamList2').change(); });
 
+// Next 2 lines create Total Salary rows on trade tables
 $(document).ready(function () { $('#team1Trades').append('<tr><td colspan="2">Total Salary:</td><td colspan="2" id="totalSalaryTeam1"></td></tr>') });
-
 $(document).ready(function () { $('#team2Trades').append('<tr><td colspan="2">Total Salary:</td><td colspan="2" id="totalSalaryTeam2"></td></tr>') });
 
-// Function creates OnClick event to add player to trade table
+
+// Next 2 functions create OnClick event to add player to trade table
 $(document).ready(function() {
                 var items = [];
 
                 $("#team1Table tbody tr").on("click", function() 
                 {
-                    var newTr = $(this).closest("tr").clone();
+                	// Clones roster row just clicked on
+                    var newTr = $(this).closest("tr").clone(); 
 
+                    // Add 'Remove' button to cloned row
                     newTr.append('<td><input type="button" value="Remove" onclick="RemoveFromTrade(this)" /></td>');
-
-                    //var table = document.getElementById("#team1Trades");
                     
+                    // Append cloned row to trade table
                     newTr.prependTo($("#team1Trades"));
-                    SumOfTradedPlayers();
+
+                    // Recalculate total salary involved in trade
+                    SumOfTradedPlayers1();
                 });
 })
 $(document).ready(function() {
@@ -44,12 +48,17 @@ $(document).ready(function() {
 
                 $("#team2Table tbody tr").on("click", function() 
                 {
-                    var newTr = $(this).closest("tr").clone();
+                	// Clones roster row just clicked on
+                    var newTr = $(this).closest("tr").clone(); 
 
+                    // Add 'Remove' button to cloned row
                     newTr.append('<td><input type="button" value="Remove" onclick="RemoveFromTrade(this)" /></td>');
 
+                    // Append cloned row to trade table
                     newTr.prependTo($("#team2Trades"));
 
+                    // Recalculate total salary involved in trade
+                    SumOfTradedPlayers2();
                 });
 })
 
@@ -58,27 +67,50 @@ $(document).ready(function() {
 function RemoveFromTrade(btn){
 	var row = btn.parentNode.parentNode;
 	row.parentNode.removeChild(row);
+	SumOfTradedPlayers1();
+	SumOfTradedPlayers2();
 };
-//
 
-
-
-function SumOfTradedPlayers()
+function SumOfTradedPlayers1()
 {
-	for (var i=1; i< 3; i++)
+	var sum = 0;
+
+	$("#team1Trades td:nth-child(3)").each(function (index) 
 	{
-	    var sum = 0;
+		var playerSalary = $(this).html(); // Grab value from Salary column in trade table
+		var number = Number(playerSalary.replace(/[^0-9\.]+/g,"")); // Takes out non-number characters
 
-	    // iteration through all td's in the column
-	    $('#team1Trades>tbody>tr>td:nth-child(2)').each( function(){
-	        sum += parseInt($(this).text()) || 0;
-	    });
+		sum += parseInt(number); // Parses string to number
+	});
 
-	    // set total in last cell of the column
-	    $('#totalSalaryTeam1').html(sum);
-	    
-	}
-	
+	var sumMoney = toUSD(sum); // Function to reformat into currency form
+	document.getElementById('totalSalaryTeam1').innerHTML = sumMoney; // Set total salary number
+}
+
+function SumOfTradedPlayers2()
+{
+	var sum = 0;
+
+	$("#team2Trades td:nth-child(3)").each(function (index) 
+	{
+		var playerSalary = $(this).html();
+		var number = Number(playerSalary.replace(/[^0-9\.]+/g,""));
+
+		sum += parseInt(number);
+	});
+
+	var sumMoney = toUSD(sum);
+	document.getElementById('totalSalaryTeam2').innerHTML = sumMoney;
+}
+
+// Function to turn number into currency format with dollar sign
+function toUSD(number) {
+    var number = number.toString(), 
+    dollars = number.split('.')[0], 
+    dollars = dollars.split('').reverse().join('')
+        .replace(/(\d{3}(?!$))/g, '$1,')
+        .split('').reverse().join('');
+    return '$' + dollars;
 }
 
 function team1Change(){
@@ -93,7 +125,7 @@ function team1Change(){
             $(table[i]).hide();
     });
 
-    // Empties trade table when team gets changed
+    // Empties trade table when team gets changed, leaving header and total salary rows
     if (document.getElementById("team1Trades").rows.length >= 3)
     {
 	    for(var i = document.getElementById("team1Trades").rows.length -1; i > 1;i--)
@@ -115,7 +147,7 @@ function team2Change(){
             $(table[i]).hide();
     });
 
-    // Empties trade table when team gets changed
+    // Empties trade table when team gets changed, leaving header and total salary rows
     if (document.getElementById("team2Trades").rows.length >= 3)
     {
 	    for(var i = document.getElementById("team2Trades").rows.length -1; i > 1;i--)
