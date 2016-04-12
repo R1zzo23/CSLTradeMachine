@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+<table class="table table-bordered table-hover table-condensed">
+<thead><tr><th title="Field #1">team_name</th>
+<th title="Field #2">team_salary</th>
+</tr></thead>
+<tbody><tr><td>Minnesota Timberwolves</td>
+<td>$73,049,919 </td>
+</tr>
+<tr><td>Orlando Magic</td>
+<td>$66,702,590 </td>
+</tr>
+<tr><td>Utah Jazz</td>
+<td>$58,853,212 </td>
+</tr>
+<tr><td>Los Angeles Lakers</td>
+<td>$56,163,289 </td>
+</tr>
+<tr><td>Boston Celtics</td>
+<td>$80,167,351 </td>
+</tr>
+<tr><td>Phoenix Suns</td>
+<td>$56,369,580 </td>
+</tr>
+<tr><td>Milwaukee Bucks</td>
+<td>$54,686,205 </td>
+</tr>
+<tr><td>Detroit Pistons</td>
+<td>$69,815,386 </td>
+</tr>
+<tr><td>Philadelphia 76ers</td>
+<td>$61,786,568 </td>
+</tr>
+<tr><td>Dallas Mavericks</td>
+<td>$65,783,204 </td>
+</tr>
+<tr><td>New York Knicks</td>
+<td>$68,916,763 </td>
+</tr>
+<tr><td>Sacramento Kings</td>
+<td>$45,275,307 </td>
+</tr>
+<tr><td>Miami Heat</td>
+<td>$72,436,077 </td>
+</tr>
+<tr><td>Charlotte Hornets</td>
+<td>$63,688,799 </td>
+</tr>
+<tr><td>San Antonio Spurs</td>
+<td>$65,661,348 </td>
+</tr>
+<tr><td>Oklahoma City Thunder</td>
+<td>$71,996,018 </td>
+</tr>
+<tr><td>Cleveland Cavaliers</td>
+<td>$50,603,648 </td>
+</tr>
+<tr><td>Houston Rockets</td>
+<td>$92,812,744 </td>
+</tr>
+<tr><td>Memphis Grizzlies</td>
+<td>$63,269,541 </td>
+</tr>
+<tr><td>Indiana Pacers</td>
+<td>$70,846,038 </td>
+</tr>
+<tr><td>Portland Trailblazers</td>
+<td>$66,165,334 </td>
+</tr>
+<tr><td>Toronto Raptors</td>
+<td>$70,787,265 </td>
+</tr>
+<tr><td>New Orleans Pelicans</td>
+<td>$73,019,325 </td>
+</tr>
+<tr><td>Washington Wizards</td>
+<td>$64,435,258 </td>
+</tr>
+<tr><td>Los Angeles Clippers</td>
+<td>$74,343,620 </td>
+</tr>
+<tr><td>Golden State Warriors</td>
+<td>$62,714,967 </td>
+</tr>
+<tr><td>Brooklyn Nets</td>
+<td>$60,451,439 </td>
+</tr>
+<tr><td>Denver Nuggets</td>
+<td>$87,723,502 </td>
+</tr>
+<tr><td>Chicago Bulls</td>
+<td>$83,539,177 </td>
+</tr>
+<tr><td>Atlanta Hawks</td>
+<td>$59,483,607 </td>
+</tr>
+</tbody></table>
+
+</body>

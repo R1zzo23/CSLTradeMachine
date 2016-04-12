@@ -19,9 +19,19 @@
 $(document).ready(function () { $('#teamList1').change(function () { team1Change(); }); $('#teamList1').change(); });
 $(document).ready(function () { $('#teamList2').change(function () { team2Change(); }); $('#teamList2').change(); });
 
-// Next 2 lines create Total Salary rows on trade tables
-$(document).ready(function () { $('#team1Trades').append('<tr><td colspan="2">Total Salary:</td><td colspan="2" id="totalSalaryTeam1"></td></tr>') });
-$(document).ready(function () { $('#team2Trades').append('<tr><td colspan="2">Total Salary:</td><td colspan="2" id="totalSalaryTeam2"></td></tr>') });
+// Next 2 lines create Traded Salary rows on trade tables
+$(document).ready(function () { $('#team1Trades')
+	.append('<tr><td colspan="2">Traded Salary:</td><td colspan="2" id="tradedSalaryTeam1"></td></tr>') });
+$(document).ready(function () { $('#team2Trades')
+	.append('<tr><td colspan="2">Traded Salary:</td><td colspan="2" id="tradedSalaryTeam2"></td></tr>') });
+
+// Next 2 lines create Team Salary rows on trade tables
+$(document).ready(function () { $('#team1Trades').append('<tr><td colspan="2">Team Salary:</td><td colspan="2" id="teamSalaryTeam1"></td></tr>') });
+$(document).ready(function () { $('#team2Trades').append('<tr><td colspan="2">Team Salary:</td><td colspan="2" id="teamSalaryTeam2"></td></tr>') });
+
+// Next 2 lines create Cap Space rows on trade tables
+$(document).ready(function () { $('#team1Trades').append('<tr><td colspan="2">Cap Space:</td><td colspan="2" id="team1CapSpace"></td></tr>') });
+$(document).ready(function () { $('#team2Trades').append('<tr><td colspan="2">Cap Space:</td><td colspan="2" id="team2CapSpace"></td></tr>') });
 
 
 // Next 2 functions create OnClick event to add player to trade table
@@ -39,8 +49,8 @@ $(document).ready(function() {
                     // Append cloned row to trade table
                     newTr.prependTo($("#team1Trades"));
 
-                    // Recalculate total salary involved in trade
-                    SumOfTradedPlayers1();
+                    // Recalculate financials
+                    UpdateFinancials();
                 });
 })
 $(document).ready(function() {
@@ -57,11 +67,138 @@ $(document).ready(function() {
                     // Append cloned row to trade table
                     newTr.prependTo($("#team2Trades"));
 
-                    // Recalculate total salary involved in trade
-                    SumOfTradedPlayers2();
+                    // Recalculate financials
+                    UpdateFinancials();
                 });
 })
 
+// Function to update traded salary, team salary and cap space rows on both trade tables
+function UpdateFinancials()
+{
+	SumOfTradedPlayers1();
+	SumOfTradedPlayers2();
+    CalculateTeam1Salary();
+    CalculateTeam2Salary();
+    CalculateTeam1CapSpace();
+    CalculateTeam2CapSpace();
+}
+
+function EvaluateTrade()
+{
+	var team1OverCap;
+	var capText1 = document.getElementById('teamSalaryTeam1').innerHTML;
+	var capNumber1 = Number(capText1.replace(/[^0-9\.]+/g,""));
+	var tradedSalaryText1 = document.getElementById('tradedSalaryTeam1').innerHTML;
+	var tradedSalaryNumber1 = Number(tradedSalaryText1.replace(/[^0-9\.]+/g,""));
+	var capSpaceText1 = document.getElementById('team1CapSpace').innerHTML;
+	var capSpaceNumber1 = Number(capSpaceText1.replace(/[^0-9\.]+/g,""));
+
+	var team2OverCap;
+	var capText2 = document.getElementById('teamSalaryTeam2').innerHTML;
+	var capNumber2 = Number(capText2.replace(/[^0-9\.]+/g,""));
+	var tradedSalaryText2 = document.getElementById('tradedSalaryTeam2').innerHTML;
+	var tradedSalaryNumber2 = Number(tradedSalaryText2.replace(/[^0-9\.]+/g,""));
+	var capSpaceText2 = document.getElementById('team1CapSpace').innerHTML;
+	var capSpaceNumber2 = Number(capSpaceText2.replace(/[^0-9\.]+/g,""));
+
+	// Check if Team 1 is over the salary cap
+	if (capNumber1 > 63065000)
+		team1OverCap = true;
+	else
+		team1OverCap = false;
+
+	if (!team1OverCap)
+	{
+		// Cap space is greater than 150% + $100,000 of traded salary
+		if (capSpaceNumber1 > ((tradedSalaryNumber1 * 1.5) + 100000))
+		{
+			if (capSpaceNumber1 > tradedSalaryNumber2)
+				alert("Valid trade for Team 1");
+			else
+				alert("Trade is invalid for Team 1: cannot absorb additional salary in free cap space.");
+		}
+		// If 150% + $100,000 of trade salary is greater than cap space
+		else
+		{
+			if (((tradedSalaryNumber1 * 1.5) + 100000) > tradedSalaryNumber2)
+				alert("Valid trade for Team 1");
+			else
+				alert("Trade is invalid for Team 1: exceeds the 150% + $100,000 rule.");
+		}
+	}
+	else
+	{
+		// Over salary cap but under luxury tax
+		if (capNumber1 < 76829000)
+		{
+			if (((tradedSalaryNumber1 * 1.5) + 100000) >= tradedSalaryNumber2)
+				alert("Valid trade for Team 1.");
+			else
+				alert("Trade is invalid for Team 1: exceeds the 150% + $100,000 rule.");
+		}
+
+		// Over salary cap and luxury tax
+		else
+		{
+			if (((tradedSalaryNumber1 * 1.25) + 100000) >= tradedSalaryNumber2)
+			{
+				if ((tradedSalaryNumber2 + capNumber1 - tradedSalaryNumber1) >= 103000000)
+					alert("Trade is invalid for Team 1: exceeds hard cap.");
+				else
+					alert("Valid trade for Team 1.");
+			}
+			else
+				alert("Trade is invalid for Team 1: exceeds the 125% + $100,000 rule.");
+		}
+	}
+
+	// Check if Team 2 is over the salary cap
+	if (capNumber2 > 63065000)
+		team2OverCap = true;
+	else
+		team2OverCap = false;
+
+	if (!team2OverCap)
+	{
+		// Cap space is greater than 150% + $100,000 of traded salary
+		if (capSpaceNumber2 > ((tradedSalaryNumber2 * 1.5) + 100000))
+		{
+			if (capSpaceNumber2 > tradedSalaryNumber1)
+				alert("Valid trade for Team 2");
+			else
+				alert("Trade is invalid for Team 2: cannot absorb additional salary in free cap space.");
+		}
+
+		// If 150% + $100,000 of trade salary is greater than cap space
+		else
+		{
+			if (((tradedSalaryNumber2 * 1.5) + 100000) > tradedSalaryNumber1)
+				alert("Valid trade for Team 2");
+			else
+				alert("Trade is invalid for Team 2: exceeds the 150% + $100,000 rule.");
+		}
+	}
+	else
+	{
+		// Over salary cap but under luxury tax
+		if (capNumber2 < 76829000)
+		{
+			if (((tradedSalaryNumber2 * 1.5) + 100000) >= tradedSalaryNumber1)
+				alert("Valid trade for Team 2.");
+			else
+				alert("Trade is invalid for Team 2: exceeds the 150% + $100,000 rule.");
+		}
+
+		// Over salary cap and luxury tax
+		else
+		{
+			if (((tradedSalaryNumber2 * 1.25) + 100000) >= tradedSalaryNumber1)
+				alert("Valid trade for Team 2.");
+			else
+				alert("Trade is invalid for Team 2: exceeds the 125% + $100,000 rule.");
+		}
+	}
+}
 
 // Function to add button delete row from trade table when clicked on
 function RemoveFromTrade(btn){
@@ -84,7 +221,7 @@ function SumOfTradedPlayers1()
 	});
 
 	var sumMoney = toUSD(sum); // Function to reformat into currency form
-	document.getElementById('totalSalaryTeam1').innerHTML = sumMoney; // Set total salary number
+	document.getElementById('tradedSalaryTeam1').innerHTML = sumMoney; // Set total salary number
 }
 
 function SumOfTradedPlayers2()
@@ -100,7 +237,69 @@ function SumOfTradedPlayers2()
 	});
 
 	var sumMoney = toUSD(sum);
-	document.getElementById('totalSalaryTeam2').innerHTML = sumMoney;
+	document.getElementById('tradedSalaryTeam2').innerHTML = sumMoney;
+}
+
+/*
+http://stackoverflow.com/questions/22674636/tablesorter-jquery-get-sum-of-numeric-column-after-being-filtered
+*/
+
+function CalculateTeam1Salary()
+{
+    var total = 0;
+    var visibleRows = $('#team1Table tbody tr:visible');
+
+    visibleRows.each(function()
+    {
+        // find money in 2nd column
+        var playerSalary = $(this).find('td:eq(2)').html();
+        var number = Number(playerSalary.replace(/[^0-9\.]+/g,""))
+
+        total += parseInt(number);
+    });
+
+    var sumMoney = toUSD(total);
+    document.getElementById('teamSalaryTeam1').innerHTML = sumMoney;
+}
+
+function CalculateTeam2Salary()
+{
+    var total = 0;
+    var visibleRows = $('#team2Table tbody tr:visible');
+
+    visibleRows.each(function()
+    {
+        // find money in 2nd column
+        var playerSalary = $(this).find('td:eq(2)').html();
+        var number = Number(playerSalary.replace(/[^0-9\.]+/g,""))
+
+        total += parseInt(number);
+    });
+
+    var sumMoney = toUSD(total);
+    document.getElementById('teamSalaryTeam2').innerHTML = sumMoney;
+}
+
+function CalculateTeam1CapSpace()
+{
+	var teamSalary = document.getElementById('teamSalaryTeam1').innerHTML;
+	var teamSalaryNumber = Number(teamSalary.replace(/[^0-9\.]+/g,""))
+	var capSpaceNumber = 63065000 - teamSalaryNumber;
+	var capSpaceDollars = toUSD(capSpaceNumber);
+
+	document.getElementById('team1CapSpace').innerHTML = capSpaceDollars;
+
+}
+
+function CalculateTeam2CapSpace()
+{
+	var teamSalary = document.getElementById('teamSalaryTeam2').innerHTML;
+	var teamSalaryNumber = Number(teamSalary.replace(/[^0-9\.]+/g,""))
+	var capSpaceNumber = 63065000 - teamSalaryNumber;
+	var capSpaceDollars = toUSD(capSpaceNumber);
+
+	document.getElementById('team2CapSpace').innerHTML = capSpaceDollars;
+
 }
 
 // Function to turn number into currency format with dollar sign
@@ -117,6 +316,8 @@ function team1Change(){
 	// Shows players from team selected, hides all others
 	var SelVal = $('#teamList1').find(':selected').text();
     var table = $('#team1Table tbody tr');
+    var sum = 0;
+
     $.each(table, function (i) {
         if ($(table[i]).find('td:eq(1)').text().toLowerCase().trim() == SelVal.toLowerCase().trim()) {
             $(table[i]).show();
@@ -128,7 +329,7 @@ function team1Change(){
     // Empties trade table when team gets changed, leaving header and total salary rows
     if (document.getElementById("team1Trades").rows.length >= 3)
     {
-	    for(var i = document.getElementById("team1Trades").rows.length -1; i > 1;i--)
+	    for(var i = document.getElementById("team1Trades").rows.length -3; i > 1;i--)
 		{
 			document.getElementById("team1Trades").deleteRow(i -1);
 		}
@@ -150,7 +351,7 @@ function team2Change(){
     // Empties trade table when team gets changed, leaving header and total salary rows
     if (document.getElementById("team2Trades").rows.length >= 3)
     {
-	    for(var i = document.getElementById("team2Trades").rows.length -1; i > 1;i--)
+	    for(var i = document.getElementById("team2Trades").rows.length -3; i > 1;i--)
 		{
 			document.getElementById("team2Trades").deleteRow(i -1);
 		}
@@ -1178,7 +1379,7 @@ function team2Change(){
 					<td>Memphis Grizzlies</td>
 					<td>$1,352,181 </td>
 					</tr>
-					<tr><td>Kyle O&#39;Quinn</td>
+					<tr><td>Kyle O'Quinn</td>
 					<td>Memphis Grizzlies</td>
 					<td>$4,800,000 </td>
 					</tr>
@@ -3721,6 +3922,16 @@ function team2Change(){
 				    </tbody>
 				</table>
 			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row" style="text-align:center">
+			<p></p>
+			<p></p>
+			<button type="button" id="btnTryThisTrade" onclick="EvaluateTrade()">Try This Trade!</button>
+			<p></p>
+			<p></p>
 		</div>
 	</div>
 

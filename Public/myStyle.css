@@ -83,3 +83,12 @@ tr th {
 .btnRemove {
      width: 41px;
 }
+
+#btnTryThisTrade {
+     margin: 0 auto;
+     position: relative;
+}
+
+#btnRow {
+     text-align: center;
+}
