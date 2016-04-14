@@ -101,6 +101,12 @@ function EvaluateTrade()
 	var capSpaceText2 = document.getElementById('team1CapSpace').innerHTML;
 	var capSpaceNumber2 = Number(capSpaceText2.replace(/[^0-9\.]+/g,""));
 
+	var team1ValidTrade;
+	var team2ValidTrade;
+
+	var t1TradeExplanation = document.getElementById('team1TradeExplanation');
+	var t2TradeExplanation = document.getElementById('team2TradeExplanation');
+
 	// Check if Team 1 is over the salary cap
 	if (capNumber1 > 63065000)
 		team1OverCap = true;
@@ -113,17 +119,33 @@ function EvaluateTrade()
 		if (capSpaceNumber1 > ((tradedSalaryNumber1 * 1.5) + 100000))
 		{
 			if (capSpaceNumber1 > tradedSalaryNumber2)
-				alert("Valid trade for Team 1");
+			{
+				team1ValidTrade = true;
+				//alert("Valid trade for Team 1");
+				t1TradeExplanation.innerHTML = "Valid trade for Team 1";
+			}
 			else
-				alert("Trade is invalid for Team 1: cannot absorb additional salary in free cap space.");
+			{
+				team1ValidTrade = false;
+				//alert("Trade is invalid for Team 1: cannot absorb additional salary in free cap space.");
+				t1TradeExplanation.innerHTML = "Trade is invalid for Team 1: cannot absorb additional salary in free cap space.";
+			}
 		}
 		// If 150% + $100,000 of trade salary is greater than cap space
 		else
 		{
 			if (((tradedSalaryNumber1 * 1.5) + 100000) > tradedSalaryNumber2)
-				alert("Valid trade for Team 1");
+			{
+				team1ValidTrade = true;
+				//alert("Valid trade for Team 1");
+				t1TradeExplanation.innerHTML = "Valid trade for Team 1";
+			}
 			else
-				alert("Trade is invalid for Team 1: exceeds the 150% + $100,000 rule.");
+			{
+				team1ValidTrade = false;
+				//alert("Trade is invalid for Team 1: exceeds the 150% + $100,000 rule.");
+				t1TradeExplanation.innerHTML = "Trade is invalid for Team 1: exceeds the 150% + $100,000 rule.";
+			}
 		}
 	}
 	else
@@ -132,9 +154,17 @@ function EvaluateTrade()
 		if (capNumber1 < 76829000)
 		{
 			if (((tradedSalaryNumber1 * 1.5) + 100000) >= tradedSalaryNumber2)
-				alert("Valid trade for Team 1.");
+			{
+				team1ValidTrade = true;
+				//alert("Valid trade for Team 1.");
+				t1TradeExplanation.innerHTML = "Valid trade for Team 1";
+			}
 			else
-				alert("Trade is invalid for Team 1: exceeds the 150% + $100,000 rule.");
+			{
+				team1ValidTrade = false;
+				//alert("Trade is invalid for Team 1: exceeds the 150% + $100,000 rule.");
+				t1TradeExplanation.innerHTML = "Trade is invalid for Team 1: exceeds the 150% + $100,000 rule.";
+			}
 		}
 
 		// Over salary cap and luxury tax
@@ -143,12 +173,24 @@ function EvaluateTrade()
 			if (((tradedSalaryNumber1 * 1.25) + 100000) >= tradedSalaryNumber2)
 			{
 				if ((tradedSalaryNumber2 + capNumber1 - tradedSalaryNumber1) >= 103000000)
-					alert("Trade is invalid for Team 1: exceeds hard cap.");
+				{
+					team1ValidTrade = false;
+					//alert("Trade is invalid for Team 1: exceeds hard cap.");
+					t1TradeExplanation.innerHTML = "Trade is invalid for Team 1: exceed hard cap.";
+				}
 				else
-					alert("Valid trade for Team 1.");
+				{
+					team1ValidTrade = true;
+					//alert("Valid trade for Team 1.");
+					t1TradeExplanation.innerHTML = "Valid trade for Team 1";
+				}
 			}
 			else
-				alert("Trade is invalid for Team 1: exceeds the 125% + $100,000 rule.");
+			{
+				team1ValidTrade = false;
+				//alert("Trade is invalid for Team 1: exceeds the 125% + $100,000 rule.");
+				t1TradeExplanation.innerHTML = "Trade is invalid for Team 1: exceeds the 125% + $100,000 rule.";
+			}
 		}
 	}
 
@@ -164,18 +206,34 @@ function EvaluateTrade()
 		if (capSpaceNumber2 > ((tradedSalaryNumber2 * 1.5) + 100000))
 		{
 			if (capSpaceNumber2 > tradedSalaryNumber1)
-				alert("Valid trade for Team 2");
+			{
+				team2ValidTrade = true;
+				//alert("Valid trade for Team 2");
+				t2TradeExplanation.innerHTML = "Valid trade for Team 2";
+			}
 			else
-				alert("Trade is invalid for Team 2: cannot absorb additional salary in free cap space.");
+			{
+				team2ValidTrade = false;
+				//alert("Trade is invalid for Team 2: cannot absorb additional salary in free cap space.");
+				t2TradeExplanation.innerHTML = "Trade is invalid for Team 2: cannot absorb additional salary in free cap space.";
+			}
 		}
 
 		// If 150% + $100,000 of trade salary is greater than cap space
 		else
 		{
 			if (((tradedSalaryNumber2 * 1.5) + 100000) > tradedSalaryNumber1)
-				alert("Valid trade for Team 2");
+			{
+				team2ValidTrade = true;
+				//alert("Valid trade for Team 2");
+				t2TradeExplanation.innerHTML = "Valid trade for Team 2";
+			}
 			else
-				alert("Trade is invalid for Team 2: exceeds the 150% + $100,000 rule.");
+			{
+				team2ValidTrade = false;
+				//alert("Trade is invalid for Team 2: exceeds the 150% + $100,000 rule.");
+				t2TradeExplanation.innerHTML = "Trade is invalid for Team 2: exceeds the 150% + $100,000 rule.";
+			}
 		}
 	}
 	else
@@ -184,20 +242,61 @@ function EvaluateTrade()
 		if (capNumber2 < 76829000)
 		{
 			if (((tradedSalaryNumber2 * 1.5) + 100000) >= tradedSalaryNumber1)
-				alert("Valid trade for Team 2.");
+			{
+				team2ValidTrade = true;
+				//alert("Valid trade for Team 2.");
+				t2TradeExplanation.innerHTML = "Valid trade for Team 2";
+			}
 			else
-				alert("Trade is invalid for Team 2: exceeds the 150% + $100,000 rule.");
+			{
+				team2ValidTrade = false;
+				//alert("Trade is invalid for Team 2: exceeds the 150% + $100,000 rule.");
+				t2TradeExplanation.innerHTML = "Trade is invalid for Team 2: exceeds the 150% + $100,000 rule.";
+			}
 		}
 
 		// Over salary cap and luxury tax
 		else
 		{
 			if (((tradedSalaryNumber2 * 1.25) + 100000) >= tradedSalaryNumber1)
-				alert("Valid trade for Team 2.");
+			{
+				team2ValidTrade = true;
+				//alert("Valid trade for Team 2.");
+				t2TradeExplanation.innerHTML = "Valid trade for Team 2";
+			}
 			else
-				alert("Trade is invalid for Team 2: exceeds the 125% + $100,000 rule.");
+			{
+				team2ValidTrade = false;
+				//alert("Trade is invalid for Team 2: exceeds the 125% + $100,000 rule.");
+				t2TradeExplanation.innerHTML = "Trade is invalid for Team 2: exceeds the 125% + $100,000 rule.";
+			}
 		}
 	}
+
+	// Print out results of trade
+	if (team1ValidTrade === true && team2ValidTrade === true)
+	{
+		document.getElementById('tradeResultHeader').innerHTML = "SUCCESS!";
+		document.getElementById("tradeResultHeader").style.color = 'green';
+		PrintTradeTemplateForForum();
+	}
+	else
+	{
+		document.getElementById('tradeResultHeader').innerHTML = "TRADE FAILED!";
+		document.getElementById("tradeResultHeader").style.color = 'red';
+	}
+}
+
+// Function to provide exact trade template to post to forums
+function PrintTradeTemplateForForum()
+{
+	/*
+	var template = document.getElementById('tradeTemplate');
+
+	template.innerHTML += $('#teamList1').find(':selected').text();
+	//template.innertHTML += "\"";
+	template.innertHTML += "Sends:";
+	*/
 }
 
 // Function to add button delete row from trade table when clicked on
@@ -3932,6 +4031,13 @@ function team2Change(){
 			<button type="button" id="btnTryThisTrade" onclick="EvaluateTrade()">Try This Trade!</button>
 			<p></p>
 			<p></p>
+			<b><u><H1 id="tradeResultHeader"></H1></u></b>
+			<p></p>
+			<H4 id="team1TradeExplanation"></H4>
+			<H4 id="team2TradeExplanation"></H4>
+		</div>
+		<div>
+			<p id="tradeTemplate"></p>
 		</div>
 	</div>
 
